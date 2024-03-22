@@ -1,0 +1,10 @@
+1. User login required
+2. search for articles
+3. categories 
+4. vote and comment
+5. create a article
+6. date of published articles
+7. recent post for 1 week
+8. featured articles
+9. favourate articles
+10. Authors list articles
