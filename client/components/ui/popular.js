@@ -3,7 +3,7 @@ import { Flex, Grid, Box, Card, Text } from "@radix-ui/themes"
 
 export function PopularBlogs() {
     return (
-        <section style={{ paddingLeft: "40px", maxWidth: "67%" }}>
+        <section style={{ paddingLeft: "40px", width: "67%" }}>
             <Flex align="center" gap="3">
                 <h2>Trending Articles</h2>
                 <LightningBoltIcon width="18" height="18" />

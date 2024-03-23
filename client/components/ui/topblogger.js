@@ -17,17 +17,17 @@ export function TopBlogger() {
     },[])
 
     return (
-        <section style={{ width: "33%", paddingRight: '20px' }}>
+        <section style={{ width: '33%', paddingRight: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <Flex align="center" gap="3" justify="center">
                 <h2>Top Authors</h2>
                 <PersonIcon width="18" height="18" />
             </Flex>
             <Box>
-                <Card style={{ maxWidth: 370}}>
+            <Card style={{ width: 370 }}>
                 <ScrollArea type="always" scrollbars="vertical" radius="full" size="1" style={{ height: 330 }}>
                     <Flex gap="2" direction="column" p='3'>
                         {
-                            author.map((el, y) => (<Card key={y} style={{ maxWidth: "100%" }}>
+                            author.map((el, y) => (<Card key={y}>
                                 <Flex gap="3" align="center" onClick={()=>{router.push(`/author/${el._id}`)}}>
                                     <Avatar
                                         size="2"
@@ -48,7 +48,7 @@ export function TopBlogger() {
                         }
                     </Flex>
                     </ScrollArea>
-                </Card>
+            </Card>
             </Box>
         </section>
     )

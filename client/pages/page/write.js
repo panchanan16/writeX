@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react"
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req })
-  console.log(session)
+  console.log('session from write page', session)
   if (!session) {
     return { redirect: { destination: '/auth', permanent: false } }
   }
@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
 }
 
 function WriteBlog() {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const title = useRef('');
   const description = useRef('');
   const preview = useRef('');

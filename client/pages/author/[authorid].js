@@ -2,15 +2,24 @@ import { Card, Box, Flex, IconButton, Text, Avatar, Callout, Inset, Button } fro
 import { ChatBubbleIcon, BookmarkIcon, StopwatchIcon, Pencil2Icon, BackpackIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { updateViews } from "@/utils/utils";
+import { useRouter } from 'next/router'
+
+
 
 export default function AuthorProfile() {
     const [data, setdata] = useState(null)
+    const router = useRouter()
     useEffect(() => {
         async function getMyBlogs(params) {
-            const fet = await fetch(`http://localhost:8000/apiv1/filter-blog-by-userId/6541f598126eb9c9582fe722`);
+            const fet = await fetch(`http://localhost:8000/apiv1/filter-blog-by-userId/65fd8ac20d64427f60b6ef25`);
             const res = await fet.json()
             console.log(res.filteredByUserId[0].author[0].username)
-            setdata(res.filteredByUserId)
+            if (res) {
+                setdata(res.filteredByUserId) 
+            }
+            return;
+           
         }
         getMyBlogs();
     }, [])
@@ -57,7 +66,7 @@ export default function AuthorProfile() {
                 <Flex style={{ flexWrap: "wrap", padding: 5, marginTop: 30, width: "90%" }} gap="7" align="center" justify="center">
                     {
                         data && data.map((el) => (
-                            <Card size="1" style={{ maxWidth: 240 }} key={el._id}>
+                            <Card size="1" style={{ maxWidth: 240 }} key={el._id} onClick={()=>{updateViews(el._id,router)}}>
                                 <Flex direction="column" gap="0">
                                     <Inset clip="padding-box" side="top" pb="current">
                                         <img
@@ -73,7 +82,7 @@ export default function AuthorProfile() {
                                         />
                                     </Inset>
                                     <Text size="1">
-                                        <Link href={`/page/${el._id}`} style={{textDecoration: "none", color: "black"}}><h5>{el.title.slice(0, 80).concat("....")}</h5></Link>
+                                    <h5>{el.title.slice(0, 80).concat("....")}</h5>
                                     </Text>
                                     <Text size="1">
                                         {el.description.slice(0, 95).concat("....")} 
@@ -90,6 +99,12 @@ export default function AuthorProfile() {
                                             <Pencil2Icon width="11" height="11" />
                                             <Text as="div" color="gray" size="1" weight="medium" style={{ fontSize: "11px" }}>
                                                 {el.author[0].username}
+                                            </Text>
+                                        </Flex>
+                                        <Flex align="center" gap="1">
+                                            <Pencil2Icon width="11" height="11" />
+                                            <Text as="div" color="gray" size="1" weight="medium" style={{ fontSize: "11px" }}>
+                                                {el.views}
                                             </Text>
                                         </Flex>
                                     </Flex>

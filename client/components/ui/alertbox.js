@@ -1,8 +1,26 @@
 import { AlertDialog, Flex, Button, IconButton } from "@radix-ui/themes"
 import { TrashIcon } from "@radix-ui/react-icons"
+import { toast, Bounce } from 'react-toastify';
 
 
-export function AlertBox() {
+export function AlertBox({blogId}) {
+    const deleteBlog = async () => {
+       const fet = await fetch(`http://localhost:8000/apiv1/delete-blog/${blogId}`, {method : 'DELETE'})
+       const res = await fet.json()
+       if (fet.ok) { notify()}  
+    }
+    
+  const notify = () => toast.success('You are signed up', {
+    position: "top-center",
+    autoClose: 1000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+  });
     return (
         <AlertDialog.Root>
             <AlertDialog.Trigger>
@@ -13,8 +31,7 @@ export function AlertBox() {
             <AlertDialog.Content style={{ maxWidth: 450 }}>
                 <AlertDialog.Title>Delete Article</AlertDialog.Title>
                 <AlertDialog.Description size="2">
-                    Are you sure to delete? deleting this will no longer be accessible !
-                  
+                    Are you sure to delete? deleting this will no longer be accessible ! 
                 </AlertDialog.Description>
 
                 <Flex gap="3" mt="4" justify="end">
@@ -24,7 +41,7 @@ export function AlertBox() {
                         </Button>
                     </AlertDialog.Cancel>
                     <AlertDialog.Action>
-                        <Button variant="solid" color="red">
+                        <Button variant="solid" color="red" onClick={deleteBlog}>
                             confirm
                         </Button>
                     </AlertDialog.Action>

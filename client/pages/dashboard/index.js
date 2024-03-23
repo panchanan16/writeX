@@ -3,18 +3,20 @@ import { ChatBubbleIcon, BookmarkIcon, BackpackIcon, TrashIcon } from "@radix-ui
 import { useEffect, useState } from "react";
 import { CommentBox } from "@/components/ui/commentbox";
 import { AlertBox } from "@/components/ui/alertbox";
+import { ToastContainer} from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Dashboard() {
     const [data, setdata] = useState(null)
     useEffect(() => {
         async function getMyBlogs(params) {
-            const fet = await fetch('http://localhost:8000/apiv1/filter-blog-by-userId/6541f598126eb9c9582fe722');
+            const fet = await fetch('http://localhost:8000/apiv1/filter-blog-by-userId/65fd8ac20d64427f60b6ef25');
             const res = await fet.json()
-            console.log(res.filteredByUserId[0].author[0].username)
+            console.log(res)
             setdata(res.filteredByUserId)
         }
         getMyBlogs();
-    }, [])
+    }, [data])
     return (
         <>
             <section style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -78,7 +80,7 @@ export default function Dashboard() {
                                     </Text>
 
                                     <Flex align="center" gap="4" style={{ marginTop: 10 }}>
-                                        <AlertBox/>
+                                        <AlertBox blogId={el._id} />
                                         <CommentBox />
                                     </Flex>
                                 </Flex>
@@ -86,6 +88,9 @@ export default function Dashboard() {
                         ))
                     }
                 </Flex>
+                <div>
+                    <ToastContainer />
+                </div>
             </section>
         </>
     )

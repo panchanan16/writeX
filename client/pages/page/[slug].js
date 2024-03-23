@@ -1,5 +1,5 @@
 import { Flex, Card, Box, Avatar, Text, Button, IconButton } from "@radix-ui/themes"
-import { BookmarkIcon, ChatBubbleIcon } from "@radix-ui/react-icons"
+import { BookmarkIcon, BookmarkFilledIcon } from "@radix-ui/react-icons"
 import { useRouter } from 'next/router'
 import { useEffect, useState, useRef } from "react"
 import { Footer } from "@/components/ui/footer"
@@ -8,9 +8,13 @@ import { CommentBox } from "@/components/ui/commentbox"
 export default function Article(params) {
     const router = useRouter()
     const [read, setRead] = useState({})
+    const [bookMark, setbookMark] = useState(false)
     const readBlog = useRef()
     const blogID = router.query.slug;
-    console.log(blogID)
+
+    async function bookMarkBlog(blogID) {
+        setbookMark(true)
+    }
 
     useEffect(()=>{
         async function fetBlogById() {
@@ -51,8 +55,8 @@ export default function Article(params) {
                             </Flex>
     
                             <Flex gap="3" align="center">
-                            <IconButton variant="surface" radius="full">
-                                <BookmarkIcon width="20" height="20" />
+                            <IconButton variant="surface" radius="full" onClick={bookMarkBlog}>
+                                {bookMark ? <BookmarkFilledIcon width="20" height="20" /> : <BookmarkIcon width="20" height="20" />}
                             </IconButton>
                             <Flex align="center" gap="2">
                                 <CommentBox/>

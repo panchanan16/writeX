@@ -1,5 +1,6 @@
 import { Flex, Card, Container, Heading, Button, TextField } from '@radix-ui/themes';
 import { useRef } from 'react';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 
 
 export default function SignUp() {
@@ -8,16 +9,28 @@ export default function SignUp() {
   const email = useRef()
   const password = useRef()
 
+  const notify = () => toast.success('You are signed up', {
+    position: "top-center",
+    autoClose: 1000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+  });
+
   async function signupnow() {
     const signupdata = {username: name.current.value, designation: designation.current.value, email: email.current.value, password: password.current.value}
-    console.log(signupdata)
+
     const postReq = await fetch('http://localhost:8000/apiv1/signUp-user', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body : JSON.stringify(signupdata)
     })
     const data = await postReq.json()
-    console.log(data)
+    if (postReq.ok) { notify(); }
   }
   return (
     <Container size="1" align="center" p="4" >
@@ -35,6 +48,9 @@ export default function SignUp() {
           </Flex>
         </Flex>
       </Card>
+      <div>
+        <ToastContainer />
+      </div>
     </Container>
   );
 }

@@ -8,7 +8,8 @@ export default function CategoryPage() {
     const router = useRouter()
     const param = router.query.category
     const [data, setdata] = useState([])
-    console.log(param)
+    const [allcategory, setallCategory] = useState([])
+
     useEffect(()=>{
         async function getCategory(params) {
             const fet = await fetch(`http://localhost:8000/apiv1/filter-blog-by-category/${param}`)
@@ -16,6 +17,12 @@ export default function CategoryPage() {
             console.log(res.filteredCategory)
             setdata(res.filteredCategory)
         }
+        async function getAllCategory(params) {
+            const fet = await fetch(`http://localhost:8000/apiv1/all-category`)
+            const res = await fet.json()
+            setallCategory(res.allcategories)
+        }
+        getAllCategory()
         getCategory()
     }, [param])
     return (
@@ -24,11 +31,11 @@ export default function CategoryPage() {
                 <ScrollArea scrollbars="horizontal">
                     <Flex gap="3" p="2">
                         {
-                            [1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 11, 11, 1, 1, 1, 1, 1].map(() => (
-                                <Card asChild color="green">
+                            allcategory?.map((ind, el) => (
+                                <Card asChild color="green"  onClick={()=>{router.push(`/category/${ind.category}`)}}>
                                     <a href="#">
                                         <Text as="div" size="1" weight="bold">
-                                            Technology
+                                            {ind.category}
                                         </Text>
                                     </a>
                                 </Card>

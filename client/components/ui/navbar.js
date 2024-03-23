@@ -3,14 +3,13 @@ import { PersonIcon, ExitIcon, CaretDownIcon, HeartFilledIcon, HomeIcon } from "
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from 'next/router'
 
-export function Navbar() {
-    const { data, status } = useSession()
-    const router = useRouter()
 
+export function Navbar() {
+     const { data: session, status } = useSession()
+     console.log(session)
+    const router = useRouter()
     function routingPass() {
-        if (status === "unauthenticated") {
-            router.push('/auth')
-        } else { router.push('/page/write') }
+        router.push('/page/write')
     }
 
     async function testOk() {
@@ -32,7 +31,7 @@ export function Navbar() {
                         fallback="T"
                     />
                     <Heading>
-                        LearnYaar
+                       writeX
                     </Heading>
                 </Flex>
                 <Flex gap='6' justify='between' align="center">

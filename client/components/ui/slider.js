@@ -1,17 +1,17 @@
-import { Box, Flex, Heading, Inset, Text, Button } from "@radix-ui/themes"
+import { Flex, Inset, Text, Button } from "@radix-ui/themes"
 import { ArrowRightIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
 
 export function Slider() {
     return (
         <>
-            <div style={{ paddingLeft: "70px", paddingRight: "70px", display: 'flex', flexDirection: "row", justifyContent: "space-between" }}>
+            <div style={{ paddingLeft: "70px", paddingRight: "70px", display: 'flex', flexDirection: "row", alignItems: "center", justifyContent: "space-between", height: "30rem" }}>
                 <Flex justify="between">
-                    <Flex p="20" direction="column" gap="1" justify="center" align="left" style={{ maxWidth: 400 }}>
-                        <Text weight="bold" style={{ fontSize: 25}}>Read More, Learn More</Text>
-                        <Text weight="bold" style={{ fontSize: 65 }}>Stay Focus</Text>
+                    <Flex p="20" direction="column" gap="1" justify="center" align="left">
+                        <Text weight="bold" style={{ fontSize: 40}}>Read More, Learn More</Text>
+                        <Text weight="bold" style={{ fontSize: 100 }}>Stay Focus</Text>
                         <Text weight="medium">Discover stories, thinking, and expertise from writers on any topic.</Text>
-                        <Button size="2" asChild="true" radius="large" variant="surface" style={{ width: 170, marginTop: 10 }}>
+                        <Button size="3" asChild="true" radius="large" variant="solid" style={{ width: 170, marginTop: 30 }}>
                             <Link href='/auth' style={{textDecoration: "none",}}>Get started <ArrowRightIcon width="18" height="18" /></Link>
                         </Button>
                     </Flex>
@@ -28,7 +28,7 @@ export function Slider() {
                                 backgroundColor: 'var(--gray-5)',
                             }}
                         />
-                    </Inset>
+                </Inset>
             </div>
         </>
     )
