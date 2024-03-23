@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-require('../../model/db.con')
-const blog = require('../controls/blogControl')
+require('../model/db.con')
+const blog = require('../controllers/blogControl')
 router.use(express.json())
 
 router.post('/create-blog', blog.createBlog)
@@ -15,5 +15,7 @@ router.get('/filter-blog-by-blogId/:blogId', blog.getBlogById)
 router.delete('/delete-blog/:blogId', blog.deleteBlog)
 
 router.get('/get-all-blog', blog.getAllBlog)
+
+router.put('/update-views', blog.viewsIncrease)
 
 module.exports = router

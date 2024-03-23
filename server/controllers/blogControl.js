@@ -1,4 +1,4 @@
-const Blog = require('../../model/blogModel')
+const Blog = require('../model/blogModel')
 const mongoose = require('mongoose')
 
 const BlogControl = {
@@ -14,6 +14,19 @@ const BlogControl = {
             res.send({ msg: error })
         }
     },
+    viewsIncrease : async function (req, res) {
+        const { blogId } = req.body;
+        try {
+            const filteredCategory = await Blog.updateOne(
+                { _id: blogId },
+                { $inc: { views: 1 } }
+             )
+            res.status(200).send({msg: "updated successfully..."})
+        } catch (error) {
+            res.send({ msg: error })
+        } 
+    },
+
     filterBycategory: async function (req, res) {
         const { filterId } = req.params;
         try {

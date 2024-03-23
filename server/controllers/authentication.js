@@ -1,4 +1,6 @@
-const User = require('../../model/userModel')
+const User = require('../model/userModel')
+const jwt = require('jsonwebtoken');
+
 
 const userAction = {
    signupUser: function (req, res) {
@@ -11,12 +13,14 @@ const userAction = {
 
    loginUser: async function (req, res) {
       const { email, password } = req.body;
-      const loginUser = await User.findOne({ email: email, password: password }, { email: true, password: true }).exec();
+      const loginUser = await User.findOne({ email: email, password: password }, {_id: true, email: true }).exec();
       if (loginUser) {
-         res.status(200).send({ user: true });
+         const token = jwt.sign({ foo: 'bar' }, 'shhhhh')
+         res.status(200).send({ user: {email: {_id: loginUser._id, email: loginUser.email, token: token}}});
          return;
       } else { res.status(403).send({ msg: 'Login failed' }); }
    },
+   // {email: {_id: loginUser._id, email: loginUser.email}}
 
    updateUser: async function (req, res) {
       const { id, password } = req.body;

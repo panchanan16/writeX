@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-require('../../model/db.con')
-const categoryControl = require('../controls/blogCategory')
+require('../model/db.con')
+const categoryControl = require('../controllers/blogCategory')
 router.use(express.json())
 
 router.post('/create-category', categoryControl.createCategory)

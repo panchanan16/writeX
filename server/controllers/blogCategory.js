@@ -1,4 +1,4 @@
-const Category = require('../../model/blogCategoryModel')
+const Category = require('../model/blogCategoryModel')
 
 const categoryControl = {
     createCategory: async function (req, res) {

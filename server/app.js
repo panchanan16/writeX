@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const authRoute = require('./controllers/routes/authRoute');
-const categoryRoute = require('./controllers/routes/blogCategoryRoute');
-const blogRoute = require('./controllers/routes/blogRoute');
-const commentRoute = require('./controllers/routes/commentRoute');
+const authRoute = require('./routes/authRoute');
+const categoryRoute = require('./routes/blogCategoryRoute');
+const blogRoute = require('./routes/blogRoute');
+const commentRoute = require('./routes/commentRoute');
 const multer  = require('multer')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
+app.use(express.json())
 app.use(cors())
 app.use(express.static('uploads'));
 
