@@ -2,9 +2,6 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions = {
-  session : {
-    jwt : true
-  },
     providers: [
         CredentialsProvider({
           async authorize(credentials) {
@@ -21,7 +18,11 @@ export const authOptions = {
             return null;
           }
         })
-      ]
+      ],
+      secret : "p2E4ggg%hkgwdkjgdg67gglln789bzfwkgkgslhl",
+      session : {
+        strategy : "jwt"
+      },
   }
 
 

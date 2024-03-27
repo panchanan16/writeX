@@ -1,21 +1,17 @@
 import { Flex, Avatar, Box, Card, Text } from "@radix-ui/themes"
 import { CountdownTimerIcon, StopwatchIcon, Pencil2Icon, EyeOpenIcon } from "@radix-ui/react-icons"
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from 'next/router'
 import { updateViews } from "@/utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { getblogs } from "@/redux/features/recent/recentBlogSlice";
 
 export function RecentBlog() {
-    const [blog, setBlog] = useState([]);
     const router = useRouter()
+    const {allBlog} = useSelector((state) => state.recentblog.recentblogs)
+    const dispatch = useDispatch()
  
-    useEffect(() => {
-        async function fetchBlog() {
-            const fet = await fetch('http://localhost:8000/apiv1/get-all-blog')
-            const res = await fet.json()
-            setBlog(res.allBlog)
-        }
-        fetchBlog();
-    }, [])
+    useEffect(() => { dispatch(getblogs()) }, [])
 
     return (
         <section style={{ paddingLeft: "40px", width: "67%" }}>
@@ -25,7 +21,7 @@ export function RecentBlog() {
             </Flex>
             <Flex direction="column" gap='2' style={{ width: "100%" }}>
                 {
-                    blog.map((el, y) => (
+                    allBlog?.map((el, y) => (
                         <Card style={{width: "100%"}} key={y} onClick={()=> {updateViews(el._id, router)}}>
                             <Flex  gap="4" align="left">
                                 <Avatar

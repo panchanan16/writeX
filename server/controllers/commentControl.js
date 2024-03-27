@@ -9,7 +9,7 @@ const CommentControl = {
             await newcomment.save()
             res.status(200).send({ msg: `comment added successfully!!` })
         } catch (error) {
-            res.send({ msg: error })
+            res.status(500).send({ msg: error })
         }
     },
     deleteComment: async function(req, res){
@@ -18,7 +18,7 @@ const CommentControl = {
            const delresult = await CommentModel.deleteOne({_id : commentId})
            res.status(200).send({ msg: delresult})
         } catch (error) {
-            res.send({ msg: error })
+            res.status(500).send({ msg: error })
         }
     },
     getBlogWithComment: async function(req, res){
@@ -28,7 +28,7 @@ const CommentControl = {
             {$lookup : {from: "signups", localField: "userId",foreignField: "_id", as: "author"}},
             {$project : {comment : 1, author: 1}}
         ])
-        res.send({result})
+        res.status(200).send({result})
     }
 }
 

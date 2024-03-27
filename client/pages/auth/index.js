@@ -16,7 +16,6 @@ export default function LogIn() {
   async function loginNow(params) {
     const authResult = await signIn('credentials', {email: email.current.value, password: password.current.value, redirect: false})
     const ses = await getSession()
-    console.log(ses.user.email.token)
     
     if (authResult.ok) {
       cookies.set('token', ses.user.email.token, { path: '/' }); 

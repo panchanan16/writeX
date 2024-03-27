@@ -1,26 +1,15 @@
 import { AlertDialog, Flex, Button, IconButton } from "@radix-ui/themes"
 import { TrashIcon } from "@radix-ui/react-icons"
-import { toast, Bounce } from 'react-toastify';
+import { notify } from "@/utils/notify";
 
 
 export function AlertBox({blogId}) {
     const deleteBlog = async () => {
        const fet = await fetch(`http://localhost:8000/apiv1/delete-blog/${blogId}`, {method : 'DELETE'})
        const res = await fet.json()
-       if (fet.ok) { notify()}  
+       if (fet.ok) { notify('success', 'Successfully deleted')}  
     }
     
-  const notify = () => toast.success('You are signed up', {
-    position: "top-center",
-    autoClose: 1000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    transition: Bounce,
-  });
     return (
         <AlertDialog.Root>
             <AlertDialog.Trigger>

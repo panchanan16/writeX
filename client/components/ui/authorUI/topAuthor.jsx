@@ -1,19 +1,17 @@
 import { Card, Box, Avatar, Text, Flex, ScrollArea } from "@radix-ui/themes"
 import { PersonIcon } from "@radix-ui/react-icons";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from 'react-redux'
+import { getauthors } from "@/redux/features/author/authorSlice";
 
-export function TopBlogger() {
-    const [author, setauthor] = useState([]);
-    const router =useRouter()
+export function TopAuthor() {
+    const router = useRouter()
+    const allAuthor = useSelector((state) => state.author.authors)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        async function fetchAuthor() {
-           const fet = await fetch('http://localhost:8000/apiv1/get-users') 
-           const res = await fet.json()
-           setauthor(res.users)
-        }
-        fetchAuthor();
+        dispatch(getauthors());
     },[])
 
     return (
@@ -27,7 +25,7 @@ export function TopBlogger() {
                 <ScrollArea type="always" scrollbars="vertical" radius="full" size="1" style={{ height: 330 }}>
                     <Flex gap="2" direction="column" p='3'>
                         {
-                            author.map((el, y) => (<Card key={y}>
+                            allAuthor?.users?.map((el, y) => (<Card key={y}>
                                 <Flex gap="3" align="center" onClick={()=>{router.push(`/author/${el._id}`)}}>
                                     <Avatar
                                         size="2"
