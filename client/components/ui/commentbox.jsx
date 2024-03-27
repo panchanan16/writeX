@@ -8,11 +8,11 @@ import { getcomments } from "@/redux/features/comment/commentSlice"
 import { POST } from "@/redux/callApi"
 import { notify } from "@/utils/notify"
 
-export function CommentBox() {
+export function CommentBox({blogId}) {
     const commentRef = useRef()
     const { data: session } = useSession()
     const router = useRouter()
-    const params = router.query.slug
+    const params = blogId ? blogId : router.query.slug
     const { result } = useSelector((state) => state.comment.comments)
     const dispatch = useDispatch()
 
@@ -22,10 +22,10 @@ export function CommentBox() {
         const commentData = { comment: commentRef.current.value, userId: session.user.email._id, blogId: router.query.slug }
         if (commentData.comment != "") {
             const sendComment = await POST('apiv1/create-comment', commentData)
-            console.log(sendComment);
-        } else {
-           notify("error", 'Please, enter a comment!')
-        }
+            if (sendComment.ok) {
+                dispatch(getcomments(params))
+                notify("success", 'comment added successfully')}else { notify("error", 'comment creation failed')}
+        } else { notify("error", 'Please, enter a comment!')}
     }
 
     return (

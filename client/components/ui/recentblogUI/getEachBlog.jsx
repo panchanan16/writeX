@@ -10,6 +10,7 @@ import { getblogbyid } from "@/redux/features/recent/recentBlogSlice"
 export default function GetEachBlog(params) {
     const router = useRouter()
     const [bookMark, setbookMark] = useState(false)
+    const [follow, setfollow] = useState(false)
     const blogID = router.query.slug;
     const {perblog} = useSelector((state)=>state.recentblog)
     const dispatch = useDispatch()
@@ -20,6 +21,9 @@ export default function GetEachBlog(params) {
 
     async function bookMarkBlog(blogID) {
         setbookMark(true)
+    } 
+    async function followUser() {
+        setfollow(true)
     } 
 
         return (
@@ -43,7 +47,7 @@ export default function GetEachBlog(params) {
                                 {perblog && perblog[0]?.author[0].designation}
                                 </Text>
                             </Box>
-                            <Button size="1" variant="classic">Follow</Button>
+                            {follow ? <Button size="1" variant="surface">Following</Button> : <Button size="1" onClick={followUser} variant="solid">Follow</Button>}
                             </Flex>
     
                             <Flex gap="3" align="center">

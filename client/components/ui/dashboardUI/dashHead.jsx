@@ -1,19 +1,18 @@
 import { Card, Box, Flex, IconButton, Text, Avatar, Callout, Inset } from "@radix-ui/themes";
 import { BackpackIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getauthorWithBlog } from "@/redux/features/author/authorSlice";
+import { useSession } from "next-auth/react";
 
 
 export default function DashHead() {
-    const [data, setdata] = useState(null)
-    useEffect(() => {
-        async function getMyBlogs(params) {
-            const fet = await fetch('http://localhost:8000/apiv1/filter-blog-by-userId/65fd8ac20d64427f60b6ef25');
-            const res = await fet.json()
-            console.log(res)
-            setdata(res.filteredByUserId)
-        }
-        getMyBlogs();
-    }, [])
+    const dispatch = useDispatch()
+    const {filteredByUserId} = useSelector((state) => state.author.authorWithBlog )
+    const { data: session } = useSession()
+    const userId = session?.user.email._id
+    useEffect(() => {dispatch(getauthorWithBlog(userId))}, [userId])
+
     return <>
         <Card style={{ padding: '8px', width: "90%", marginTop: 30 }}>
             <Flex align="center" justify="between">
@@ -26,10 +25,10 @@ export default function DashHead() {
                     />
                     <Box>
                         <Text as="div" size="2" weight="bold">
-                            {data && data[0]?.author[0].username}
+                            {filteredByUserId && filteredByUserId[0]?.author[0].username}
                         </Text>
                         <Text as="div" size="2" color="gray">
-                            {data && data[0]?.author[0].designation}
+                            {filteredByUserId && filteredByUserId[0]?.author[0].designation}
                         </Text>
                     </Box>
                     <Callout.Root variant="outline" size="1">
@@ -43,7 +42,7 @@ export default function DashHead() {
                         <BackpackIcon />
                     </Callout.Icon>
                     <Callout.Text>
-                        {data && data.length} Articles
+                        {filteredByUserId && filteredByUserId.length} Articles
                     </Callout.Text>
                 </Callout.Root>
             </Flex>

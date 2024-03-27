@@ -2,23 +2,24 @@ import { Card, Box, Flex, IconButton, Text, Avatar, Callout, Inset } from "@radi
 import { CommentBox } from "@/components/ui/commentbox";
 import { AlertBox } from "@/components/ui/alertbox";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getauthorWithBlog } from "@/redux/features/author/authorSlice";
+import { useSession } from "next-auth/react";
 
 
 export default function DashItems(params) {
-    const [data, setdata] = useState(null)
+    const dispatch = useDispatch();
+    const {filteredByUserId} = useSelector((state) => state.author.authorWithBlog)
+    const { data: session } = useSession()
+    const userId = session?.user.email._id
+
     useEffect(() => {
-        async function getMyBlogs(params) {
-            const fet = await fetch('http://localhost:8000/apiv1/filter-blog-by-userId/65fd8ac20d64427f60b6ef25');
-            const res = await fet.json()
-            console.log(res)
-            setdata(res.filteredByUserId)
-        }
-        getMyBlogs();
-    }, [])
+        dispatch(getauthorWithBlog(userId))
+    }, [userId])
     return <>
         <Flex style={{ flexWrap: "wrap", padding: 5, marginTop: 30, width: "90%" }} gap="7" align="center" justify="center">
             {
-                data && data.map((el) => (
+                filteredByUserId && filteredByUserId.map((el) => (
                     <Card size="1" style={{ maxWidth: 240 }} key={el._id}>
                         <Flex direction="column" gap="0">
                             <Inset clip="padding-box" side="top" pb="current">
@@ -43,7 +44,7 @@ export default function DashItems(params) {
 
                             <Flex align="center" gap="4" style={{ marginTop: 10 }}>
                                 <AlertBox blogId={el._id} />
-                                <CommentBox />
+                                <CommentBox blogId={el._id} />
                             </Flex>
                         </Flex>
                     </Card>

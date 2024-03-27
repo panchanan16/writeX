@@ -15,7 +15,7 @@ export default function Home() {
         <PopularBlogs />
         <TopAuthor />
       </Flex>
-      <Flex align="baseline" gap='5' justify="between" style={{}}>
+      <Flex align="baseline" gap='5' justify="between">
         <RecentBlog />
         <TopCategory />
       </Flex>
